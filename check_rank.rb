@@ -113,8 +113,7 @@ end
 def main
   init
   msg = check_rank + compare_voters
-  # send_to_telegram(msg) unless msg.empty?
-  puts msg
+  send_to_telegram(msg) unless msg.empty?
 end
 
 main
