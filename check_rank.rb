@@ -7,7 +7,7 @@ require 'csv'
 
 def init
   @HOST_ADDRESS, @HOST_PORT, @DELEGATE_NAME, @SHIFTUX_PUBLIC_KEY, @TELEGRAM_ID, @TELEGRAM_API_KEY, @RANK_FILE, @VOTERS_FILE = YAML.load(File.read("config.yaml"))
-  @HOST_ADDRESS = 'https://127.0.0.1' if Socket.gethostname == 'shiftux'
+  @HOST_ADDRESS = 'https://127.0.0.1' if Socket.gethostname == @DELEGATE_NAME
   @telegramAPI = TelegramAPI.new(@TELEGRAM_API_KEY)
   save_rank(get_rank) unless File.file?(@RANK_FILE)
   save_voters unless File.file?(@VOTERS_FILE)
@@ -88,7 +88,7 @@ def check_rank
   rank_difference = previous_rank.to_i - current_rank
   msg = ""
   if rank_difference != 0
-    msg = msg + "Shiftux currently is on rank: #{get_rank}\n previous rank: #{previous_rank} change: #{rank_difference}\n\n"
+    msg = msg + "#{@DELEGATE_NAME} currently is on rank: #{get_rank}\n previous rank: #{previous_rank} change: #{rank_difference}\n\n"
     save_rank(current_rank)
   end
   msg
@@ -99,11 +99,11 @@ def compare_voters
   no_longer_voters = find_removed_voters
   msg = ""
   unless new_voters.empty?
-    msg = msg + "New delegates voting for shiftux: \n"
+    msg = msg + "New delegates voting for #{@DELEGATE_NAME}: \n"
     msg = msg + new_voters.map{|new_voter| " - "+new_voter["username"]+" "+new_voter["address"]}.join("\n")+"\n"
   end
   unless no_longer_voters.empty?
-    msg = msg + "Delegates no longer voting for shiftux: \n"
+    msg = msg + "Delegates no longer voting for #{@DELEGATE_NAME}: \n"
     msg = msg + no_longer_voters.map{|nlv| " - "+nlv["username"]+" "+nlv["address"]}.join("\n")+"\n"
   end
   save_voters
