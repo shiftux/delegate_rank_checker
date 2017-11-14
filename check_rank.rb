@@ -98,13 +98,20 @@ def compare_voters
   new_voters = find_new_voters
   no_longer_voters = find_removed_voters
   msg = ""
+  puts new_voters
   unless new_voters.empty?
     msg = msg + "New delegates voting for #{@DELEGATE_NAME}: \n"
-    msg = msg + new_voters.map{|new_voter| " - "+new_voter["username"]+", bal:"+new_voter["balance"]+", addr:"+new_voter["address"]}.join("\n")+"\n"
+    msg = msg + new_voters.map{|new_voter| " - "+
+      (new_voter["username"].nil? ? "" : new_voter["username"] ) +
+      ", bal:"+new_voter["balance"]+
+      ", addr:"+new_voter["address"]}.join("\n")+"\n"
   end
   unless no_longer_voters.empty?
     msg = msg + "Delegates no longer voting for #{@DELEGATE_NAME}: \n"
-    msg = msg + no_longer_voters.map{|nlv| " - "+nlv["username"]+", bal:"+nlv["balance"]+", addr:"+nlv["address"]}.join("\n")+"\n"
+    msg = msg + no_longer_voters.map{|nlv| " - "+
+      (nlv["username"].nil? ? "" : nlv["username"])+
+      ", bal:"+nlv["balance"]+
+      ", addr:"+nlv["address"]}.join("\n")+"\n"
   end
   save_voters
   msg
@@ -113,7 +120,8 @@ end
 def main
   init
   msg = check_rank + compare_voters
-  send_to_telegram(msg) unless msg.empty?
+  puts msg
+  # send_to_telegram(msg) unless msg.empty?
 end
 
 main
