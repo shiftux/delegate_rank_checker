@@ -117,10 +117,24 @@ def compare_voters
   msg
 end
 
+def get_elite_members
+  ["aacftp", "acheng", "adamcobain", "administrator", "adrianhunter", "africanus", "alexandra", "alisa", "alldruide", "antares", "arron", "arya", "backer", "bartholo", "bears", "bigdaddy", "bigfisher", "bigtom", "bitman", "blackswan", "brianbrian", "broydog", "bubek", "cai", "carbonara", "cindy", "cosmo", "crodam", "dakini", "darkencz", "darkwolf", "deepblue", "drken", "eastwind_ja", "efebmx", "erred", "flyer", "forger_of_oxy", "freewind", "geezee", "godelin", "goodtimes", "grajson", "greenbans", "hanlie", "honeybee", "hong", "hua", "ichimoku", "jimjeff", "jixie", "johnsnow", "kammer", "kc", "khitan", "kindle7", "lbe", "leo", "lfire444", "liaoning", "liming", "loveforever", "lsy", "luiz", "luxiang7890", "maverick", "mrgr", "mysoul", "nightmare", "nvx", "oxychamp", "oxydelegate", "oxyroad", "phinx", "risaia", "ritz233", "rooney", "saglor", "saihong", "sam", "shifter", "shiftux", "sio34", "smart2dan", "snatic", "spacetrucker", "stefanoproxy", "sunny", "swisscat", "tintin", "titsikama", "torland", "weioxy1111", "will", "willdown", "winson", "woods", "xujian", "yillusion", "yuandian", "zy1349"]
+end
+
+def check_elite_members
+  voters = get_voters_from_file.map{|voter| voter["username"] unless voter["username"].nil? }.join("")
+  voters = voters.gsub!(/_/,'')
+  elite_members = get_elite_members
+  elite_members.reject!{|member| voters.include?(member.gsub(/_/,'')) }
+  elite_members
+end
+
 def main
   init
   msg = check_rank + compare_voters
-  send_to_telegram(msg) unless msg.empty?
+  puts msg
+  # send_to_telegram(msg) unless msg.empty?
 end
 
 main
+puts check_elite_members
