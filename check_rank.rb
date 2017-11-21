@@ -123,9 +123,9 @@ end
 
 def check_elite_members
   voters = get_voters_from_file.map{|voter| voter["username"] unless voter["username"].nil? }.join("")
-  voters = voters.gsub!(/_/,'')
+  voters = voters.gsub!(/_/,'').downcase
   elite_members = get_elite_members
-  elite_members.reject!{|member| voters.include?(member.gsub(/_/,'')) }
+  elite_members.reject!{|member| voters.include?(member.gsub(/_/,'').downcase) }
   elite_members
 end
 
