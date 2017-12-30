@@ -103,14 +103,14 @@ def compare_voters
     msg = msg + "New delegates voting for #{@DELEGATE_NAME}: \n"
     msg = msg + new_voters.map{|new_voter| " - "+
       (new_voter["username"].nil? ? "" : new_voter["username"] ) +
-      ", bal:"+new_voter["balance"]+
+      ", bal:"+new_voter["balance"][0...-8]+
       ", addr:"+new_voter["address"]}.join("\n")+"\n"
   end
   unless no_longer_voters.empty?
     msg = msg + "Delegates no longer voting for #{@DELEGATE_NAME}: \n"
     msg = msg + no_longer_voters.map{|nlv| " - "+
       (nlv["username"].nil? ? "" : nlv["username"])+
-      ", bal:"+nlv["balance"]+
+      ", bal:"+nlv["balance"][0...-8]+
       ", addr:"+nlv["address"]}.join("\n")+"\n"
   end
   save_voters
