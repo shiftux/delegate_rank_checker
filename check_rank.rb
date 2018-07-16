@@ -7,7 +7,7 @@ require 'csv'
 
 def init
   @HOST_ADDRESS, @HOST_PORT, @DELEGATE_NAME, @SHIFTUX_PUBLIC_KEY, @TELEGRAM_ID, @TELEGRAM_API_KEY, @RANK_FILE, @VOTERS_FILE = YAML.load(File.read("config.yaml"))
-  @HOST_ADDRESS = 'https://127.0.0.1' if Socket.gethostname == @DELEGATE_NAME
+  @HOST_ADDRESS = 'http://127.0.0.1' if Socket.gethostname == @DELEGATE_NAME
   @telegramAPI = TelegramAPI.new(@TELEGRAM_API_KEY)
   save_rank(get_rank) unless File.file?(@RANK_FILE)
   save_voters unless File.file?(@VOTERS_FILE)
@@ -124,3 +124,4 @@ def main
 end
 
 main
+send_to_telegram('test')
